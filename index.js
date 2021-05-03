@@ -1,25 +1,25 @@
 // Your code here
-let createEmployeeRecord = function(num){
+let createEmployeeRecord = function(row){
     return {
-        firstName: num[0],
-        familyName: num[1],
-        title: num[2],
-        payPerHour: num[3],
-        startTime: [],
-        endTime: []
+        firstName: row[0],
+        familyName: row[1],
+        title: row[2],
+        payPerHour: row[3],
+        timeInEvents: [],
+        timeOutEvents: []
     }
 }
 
 let createEmployeeRecords = function(employeeRowData) {
-    return employeeRowData.map(function(num){
-        return createEmployeeRecord(num)
+    return employeeRowData.map(function(row){
+        return createEmployeeRecord(row)
     })
 }
 
 let createTimeInEvent = function(employee, dateStamp){
     let [date, hour] = dateStamp.split(' ')
 
-    employee.startTime.push({
+    employee.timeInEvents.push({
         type: "TimeIn",
         hour: parseInt(hour, 10),
         date,
@@ -31,7 +31,7 @@ let createTimeInEvent = function(employee, dateStamp){
 let createTimeOutEvent = function(employee, dateStamp){
     let [date, hour] = dateStamp.split(' ')
 
-    employee.endTime.push({
+    employee.timeOutEvents.push({
         type: "TimeOut",
         hour: parseInt(hour, 10),
         date,
@@ -41,11 +41,11 @@ let createTimeOutEvent = function(employee, dateStamp){
 }
 
 let hoursWorkedOnDate = function(employee, soughtDate){
-    let inEvent = employee.startTime.find(function(e){
+    let inEvent = employee.timeInEvents.find(function(e){
         return e.date === soughtDate
     })
 
-    let outEvent = employee.endTime.find(function(e){
+    let outEvent = employee.timeOutEvents.find(function(e){
         return e.date === soughtDate
     })
 
@@ -59,7 +59,7 @@ let wagesEarnedOnDate = function(employee, dateSought){
 }
 
 let allWagesFor = function(employee){
-    let eligibleDates = employee.startTime.map(function(e){
+    let eligibleDates = employee.timeInEvents.map(function(e){
         return e.date
     })
 
